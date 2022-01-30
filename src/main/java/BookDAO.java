@@ -28,13 +28,10 @@ public class BookDAO implements InterfaceDAO<Book> {
         if (book.id == 0) {
             throw new IllegalArgumentException("ID is not set");
         }
-        final String sql = "UPDATE book SET title = ?, author_id = ?, comment_id = ? WHERE id =?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, book.title);
-            statement.setInt(2, book.author_id);
-            statement.setString(3, book.comment_id);
-            statement.setInt(4, book.id);
-            statement.executeUpdate();
+        String sql = String.format("UPDATE book SET title = '%s', author_id = '%s', comment_id = '%s' WHERE id = '%s'",
+                book.title, book.author_id, book.comment_id, book.id);
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate(sql);
         }
     }
 
@@ -93,6 +90,19 @@ public class BookDAO implements InterfaceDAO<Book> {
         book.id = cursor.getInt("id");
         book.title = cursor.getString("title");
         book.author_id = cursor.getInt("author_id");
+        book.comment_id = cursor.getString("comment_id");
         return book;
+    }
+
+    public Collection<Book> getBooksByAuthor(Author author) throws SQLException {
+        Collection<Book> books = new ArrayList<>();
+        try (Statement statement = connection.createStatement()) {
+            String str = String.format("SELECT * FROM book WHERE author_id= '%d'", author.id);
+            ResultSet cursor = statement.executeQuery(str);
+            while (cursor.next()) {
+                books.add(createBookFromCursorIfPossible(cursor));
+            }
+        }
+        return books;
     }
 }

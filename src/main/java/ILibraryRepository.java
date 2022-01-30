@@ -11,26 +11,35 @@ public interface ILibraryRepository {
 
     void saveAuthor(Author author);
 
-    void saveComment(Comment comment);
+    void saveComment(Comment comment, User user, Book book);
 
     void saveUser(User user);
 
-    void deleteAuthor(Author author);
+    void deleteAuthor(Author author) throws SQLException;
 
-    void deleteBook(Book book);
+    void deleteBook(Book book) throws SQLException;
 
     Optional<Author> getAuthorById(int id) throws SQLException;
 
-    Optional<Book> getBookById(int id);
+    Optional<Book> getBookById(int id) throws SQLException;
 
-    Optional<Comment> getCommentById(int id);
+    Optional<Comment> getCommentById(int id) throws SQLException;
 
-    Optional<User> getUserById(int id);
+    Optional<User> getUserById(int id) throws SQLException;
 
-    Collection<Book> getBooksByAuthor(Author author);
+    Collection<Book> getBooksByAuthor(Author author) throws SQLException;
 
-    void deleteComment(Comment comment);
+    Collection<Comment> getCommentsByBook(Book book) throws SQLException;
 
-    void deleteUser(User user);
+    void deleteComment(Comment comment) throws SQLException;
 
+    void deleteUser(User user) throws SQLException;
+
+    void updateAuthor(Author author) throws SQLException;
+
+    void updateBook(Book book) throws SQLException;
+
+    void updateComment(Comment comment) throws SQLException;
+
+    void updateUser(User user) throws SQLException;
 }

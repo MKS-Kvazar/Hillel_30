@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
-public class AuthorDAO implements InterfaceDAO <Author> {
+public class AuthorDAO implements InterfaceDAO<Author> {
     private final Connection connection;
 
     public AuthorDAO(Connection connection) {
@@ -40,9 +40,9 @@ public class AuthorDAO implements InterfaceDAO <Author> {
     public Collection<Author> findByName(String text) throws SQLException {
         Collection<Author> authors = new ArrayList<>();
         try (Statement statement = connection.createStatement()) {
-            String str = String.format("SELECT * FROM author WHERE name LIKE '%%%s%%'",text);
+            String str = String.format("SELECT * FROM author WHERE name LIKE '%%%s%%'", text);
             ResultSet cursor = statement.executeQuery(str);
-            while (cursor.next()){
+            while (cursor.next()) {
                 authors.add(createAuthorFromCursorIfPossible(cursor));
             }
         }

@@ -8,11 +8,12 @@ public class Book {
         this.title = title;
         this.author_id = author_id;
     }
+
     public Book(String title) {
         this.title = title;
         this.author_id = author_id;
     }
 
-    public Book(){
+    public Book() {
     }
 }

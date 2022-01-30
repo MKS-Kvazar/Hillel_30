@@ -8,6 +8,10 @@ public class Comment {
         this.user_id = user_id;
     }
 
+    public Comment(String text) {
+        this.text = text;
+    }
+
     public Comment() {
     }
 }

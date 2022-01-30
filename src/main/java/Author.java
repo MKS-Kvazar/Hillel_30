@@ -7,6 +7,7 @@ public class Author {
         this.name = name;
         this.birthYear = birthYear;
     }
-    public Author(){
+
+    public Author() {
     }
 }

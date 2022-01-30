@@ -1,4 +1,6 @@
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Optional;
 
 public class CommentDAO implements InterfaceDAO<Comment> {
@@ -68,11 +70,24 @@ public class CommentDAO implements InterfaceDAO<Comment> {
         }
 
     }
-        private Comment createCommentFromCursorIfPossible(ResultSet cursor) throws SQLException {
-            Comment comment = new Comment();
-            comment.id = cursor.getInt("id");
-            comment.text = cursor.getString("text");
-            comment.user_id = cursor.getInt("user_id");
-            return comment;
+
+    private Comment createCommentFromCursorIfPossible(ResultSet cursor) throws SQLException {
+        Comment comment = new Comment();
+        comment.id = cursor.getInt("id");
+        comment.text = cursor.getString("text");
+        comment.user_id = cursor.getInt("user_id");
+        return comment;
+    }
+
+    public Collection<Comment> findByName(String text) throws SQLException {
+        Collection<Comment> comments = new ArrayList<>();
+        try (Statement statement = connection.createStatement()) {
+            String str = String.format("SELECT * FROM comment WHERE text LIKE '%%%s%%'", text);
+            ResultSet cursor = statement.executeQuery(str);
+            while (cursor.next()) {
+                comments.add(createCommentFromCursorIfPossible(cursor));
+            }
         }
+        return comments;
+    }
 }
